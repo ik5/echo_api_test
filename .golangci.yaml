@@ -1,0 +1,164 @@
+---
+output:
+  print-issued-lines: false
+  exclude-use-default: false
+
+linters-settings:
+  tagliatelle:
+    # Check the struck tag name case.
+    case:
+      # Use the struct field name to check the name of the struct tag.
+      # Default: false
+      use-field-name: true
+      rules:
+        # Any struct tag type can be used.
+        # Support string case: `camel`, `pascal`, `kebab`, `snake`, `upperSnake`, `goCamel`, `goPascal`, `goKebab`, `goSnake`, `upper`, `lower`, `header`.
+        json: snake
+  revive: # https://github.com/mgechev/revive/blob/master/RULES_DESCRIPTIONS.md
+    ignore-generated-header: true
+    severity: warning
+    confidence: 0.8
+    rules:
+      - name: atomic
+      - name: cognitive-complexity
+        arguments: [12]
+      - name: constant-logical-expr
+      - name: context-as-argument
+        arguments:  [allowTypesBefore: "*testing.T"]
+      - name: cyclomatic
+        arguments: [10]
+      - name: datarace
+      - name: deep-exit
+      - name: defer
+        arguments: [["call-chain","loop", "method-call", "recover", "immediate-recover", "return"]]
+      - name: dot-imports
+      - name: duplicated-imports
+      - name: early-return
+        arguments: ["preserveScope"]
+      - name: empty-block
+      - name: empty-lines
+      - name: error-naming
+      - name: error-return
+      - name: error-strings
+      - name: errorf
+      - name: enforce-map-style
+        arguments: ["any"]
+      #- name: enforce-slice-style  # at the moment it is not found by current version of golangci-lint I use.
+      #  arguments: ["any"]
+      - name: exported
+        arguments: ["checkPrivateReceivers", "sayRepetitiveInsteadOfStutters", "disableStutteringCheck"]
+      - name: flag-parameter
+      - name: function-result-limit
+        arguments: [5]
+      - name: function-length
+        arguments: [25,0]
+      - name: get-return
+      - name: identical-branches
+      - name: if-return
+      - name: import-alias-naming
+        arguments: ["^[a-z][a-z0-9]{0,}$"]
+      - name: import-shadowing
+      - name: increment-decrement
+      - name: indent-error-flow
+        arguments: ["preserveScope"]
+      - name: modifies-parameter
+      - name: nested-structs
+      - name: optimize-operands-order
+      - name: package-comments
+      - name: range-val-address
+      - name: range-val-in-closure
+      - name: range
+      - name: receiver-naming
+      - name: redefines-builtin-id
+      - name: redundant-import-alias
+      - name: string-of-int
+      - name: superfluous-else
+        arguments: ["preserveScope"]
+      - name: time-equal
+      - name: time-naming
+      - name: unchecked-type-assertion
+        arguments: [acceptIgnoredAssertionResult: true]
+      - name: unconditional-recursion
+      - name: unexported-naming
+      - name: unexported-return
+      - name: unnecessary-stmt
+      - name: unreachable-code
+      - name: unused-parameter
+      - name: unused-receiver
+      - name: use-any
+      - name: useless-break
+      - name: var-declaration
+      - name: waitgroup-by-value
+
+linters:
+  # Disable all linters.
+  # Default: false
+  disable-all: true
+  # Enable specific linter
+  # https://golangci-lint.run/usage/linters/#enabled-by-default
+  enable:
+      - errcheck
+      - gosimple
+      - govet
+      - ineffassign
+      - staticcheck
+      - unused
+      - asciicheck
+      - bidichk
+      - bodyclose
+      - containedctx
+      - contextcheck
+      - cyclop
+      - decorder
+      - dupl
+      - dupword
+      - errname
+      - errorlint
+      - execinquery
+      - exhaustive
+      - exportloopref
+      - gocheckcompilerdirectives
+      - gocognit
+      - goconst
+      - gocritic
+      - gocyclo
+      - goerr113
+      - gofmt
+      - gofumpt
+      - gomnd
+      - gosec
+      - gosmopolitan
+      - grouper
+      - loggercheck
+      - maintidx
+      - makezero
+      - mirror
+      - musttag
+      - nestif
+      - nilerr
+      - nilnil
+      - nlreturn
+      - noctx
+      - nonamedreturns
+      - nosprintfhostport
+      - paralleltest
+      - prealloc
+      - predeclared
+      - reassign
+      - revive
+      - rowserrcheck
+      - sqlclosecheck
+      - tagalign
+      - tagliatelle
+      - tenv
+      - testableexamples
+      - testpackage
+      - thelper
+      - unconvert
+      - unparam
+      - usestdlibvars
+      - varnamelen
+      - wastedassign
+      - whitespace
+      - wrapcheck
+      - wsl
