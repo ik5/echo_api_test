@@ -87,30 +87,23 @@ func (s settings) HTTPListen() string {
 func (s settings) PGDSN() string {
 	const defaultMinDv uint = 2
 
-	items := []string{}
-
-	elements := map[string]string{
-		"user":                          s.PGUserName,
-		"password":                      s.PGPassword,
-		"host":                          s.PGHost,
-		"port":                          fmt.Sprintf("%d", s.PGPort),
-		"dbname":                        s.PGDB,
-		"pool_max_conns":                fmt.Sprintf("%d", s.PGMaxConnections),
-		"pool_min_conns":                fmt.Sprintf("%d", s.PGMaxConnections/defaultMinDv),
-		"pool_max_conn_lifetime":        "5m",
-		"pool_max_conn_idle_time":       "2m30s",
-		"pool_health_check_period":      "1m",
-		"pool_max_conn_lifetime_jitter": "3m",
-		"connect_timeout":               "30",
-		"application_name":              filepath.Base(os.Args[0]),
-		"keepalives":                    "1",
-		"sslmode":                       "prefer",
-		"sslcertmode":                   "allow",
+	items := []string{
+		fmt.Sprintf("user=%s", s.PGUserName),
+		fmt.Sprintf("password=%s", s.PGPassword),
+		fmt.Sprintf("host=%s", s.PGHost),
+		fmt.Sprintf("port=%d", s.PGPort),
+		fmt.Sprintf("dbname=%s", s.PGDB),
+		fmt.Sprintf("pool_max_conns=%d", s.PGMaxConnections),
+		fmt.Sprintf("pool_min_conns=%d", s.PGMaxConnections/defaultMinDv),
+		"pool_max_conn_lifetime=5m",
+		"pool_max_conn_idle_time=2m30s",
+		"pool_health_check_period=1m",
+		"pool_max_conn_lifetime_jitter=3m",
+		"connect_timeout=30",
+		fmt.Sprintf("application_name=%s", filepath.Base(os.Args[0])),
 	}
 
-	for key, value := range elements {
-		items = append(items, fmt.Sprintf("%s=%s", key, value))
-	}
+	result := strings.Join(items, " ")
 
-	return strings.Join(items, " ")
+	return result
 }

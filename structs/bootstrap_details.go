@@ -28,7 +28,7 @@ type GeneralInfo struct {
 	Logger *slog.Logger
 
 	// Quit channel
-	Quit chan bool
+	Quit *chan bool
 }
 
 type DBInfo struct {
