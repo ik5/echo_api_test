@@ -1,8 +1,11 @@
 package structs
 
 import (
+	"context"
+	"fmt"
 	"log/slog"
 
+	"github.com/ik5/echo_api_test/utils/runtimeutils"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/labstack/echo/v4"
 )
@@ -67,4 +70,28 @@ type Context struct {
 
 	// Database information
 	DB DBInfo
+}
+
+// InitServer starts a new HTTP server or return an error
+func (ctx *Context) InitServer(logger *slog.Logger) {
+	funcName := runtimeutils.GetCallerFunctionName()
+
+	err := ctx.HTTPServer.App.Start(ctx.HTTPServer.Listen)
+	if err != nil {
+		err = fmt.Errorf("[%s] %w", funcName, err)
+		logger.Error("Unable to start HTTP server", "err", err)
+		panic(err)
+	}
+}
+
+// Shutdown shutdown the HTTP server or returns an error
+func (ctx *Context) Shutdown() error {
+	funcName := runtimeutils.GetCallerFunctionName()
+
+	err := ctx.HTTPServer.App.Shutdown(context.Background())
+	if err != nil {
+		err = fmt.Errorf("[%s] %w", funcName, err)
+	}
+
+	return err
 }

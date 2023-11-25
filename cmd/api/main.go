@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/ik5/echo_api_test/apis/apiv1"
 	"github.com/ik5/echo_api_test/structs"
 )
 
@@ -68,13 +69,26 @@ func main() {
 		panic(err)
 	}
 
+	webAPP := initHTTP(logger)
+
 	ctx.DB.Config = dbConf
 	ctx.DB.Pool = dbPool
+	ctx.HTTPServer.App = webAPP
 
 	go signalling()
 
+	go ctx.InitServer(logger)
+
+	apiv1.InitAPI(&ctx)
+
 	<-quit
 
+	err = ctx.Shutdown()
+	if err != nil {
+		logger.Warn("Unable to shutdown the HTTP server", "err", err)
+	}
+
 	dbPool.Close()
+
 	logger.Info("bye")
 }
