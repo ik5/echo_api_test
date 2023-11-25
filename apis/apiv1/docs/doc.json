@@ -1,0 +1,135 @@
+{
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "The following project helps to learn echo and how to attach swagger to it.",
+        "title": "API to learn how to use swagger and echo",
+        "contact": {},
+        "license": {
+            "name": "Mozilla Public License 2.0",
+            "url": "https://www.mozilla.org/en-US/MPL/2.0/"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost",
+    "basePath": "/v1",
+    "paths": {
+        "/users/add": {
+            "put": {
+                "description": "Create a new user and returns it's record on success.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create a new user.",
+                "parameters": [
+                    {
+                        "description": "User object",
+                        "name": "user_details",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Users"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "echo.HTTPError": {
+            "type": "object",
+            "properties": {
+                "message": {}
+            }
+        },
+        "models.Users": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "middle_name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.User": {
+            "type": "object",
+            "properties": {
+                "first_name": {
+                    "description": "User's first name",
+                    "type": "string",
+                    "maxLength": 15,
+                    "minLength": 2
+                },
+                "last_name": {
+                    "description": "User's last name",
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 2
+                },
+                "middle_name": {
+                    "description": "User's middle name (if exists)",
+                    "type": "string",
+                    "maxLength": 15,
+                    "minLength": 0
+                },
+                "username": {
+                    "description": "User's username that is in use",
+                    "type": "string",
+                    "maxLength": 24,
+                    "minLength": 2
+                }
+            }
+        }
+    }
+}

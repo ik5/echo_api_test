@@ -1,0 +1,94 @@
+basePath: /v1
+consumes:
+- application/json
+definitions:
+  echo.HTTPError:
+    properties:
+      message: {}
+    type: object
+  models.Users:
+    properties:
+      created_at:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      middle_name:
+        type: string
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  structs.User:
+    properties:
+      first_name:
+        description: User's first name
+        maxLength: 15
+        minLength: 2
+        type: string
+      last_name:
+        description: User's last name
+        maxLength: 20
+        minLength: 2
+        type: string
+      middle_name:
+        description: User's middle name (if exists)
+        maxLength: 15
+        minLength: 0
+        type: string
+      username:
+        description: User's username that is in use
+        maxLength: 24
+        minLength: 2
+        type: string
+    type: object
+host: localhost
+info:
+  contact: {}
+  description: The following project helps to learn echo and how to attach swagger
+    to it.
+  license:
+    name: Mozilla Public License 2.0
+    url: https://www.mozilla.org/en-US/MPL/2.0/
+  title: API to learn how to use swagger and echo
+  version: "1.0"
+paths:
+  /users/add:
+    put:
+      consumes:
+      - application/json
+      description: Create a new user and returns it's record on success.
+      parameters:
+      - description: User object
+        in: body
+        name: user_details
+        required: true
+        schema:
+          $ref: '#/definitions/structs.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Users'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Create a new user.
+      tags:
+      - Users
+produces:
+- application/json
+schemes:
+- http
+swagger: "2.0"

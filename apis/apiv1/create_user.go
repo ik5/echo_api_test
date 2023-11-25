@@ -13,6 +13,17 @@ import (
 )
 
 // CreateUser is the Exported API request to create a user
+//
+// @Summary Create a new user.
+// @Description Create a new user and returns it's record on success.
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Param user_details body structs.User true "User object"
+// @Success 200 {object} models.Users
+// @Failure 400 {object} echo.HTTPError
+// @Failure 500 {object} echo.HTTPError
+// @Router /users/add [put]
 func (api *APIv1) CreateUser(ctx echo.Context) error {
 	logger := api.ctx.App.Logger
 	logger.Debug("In CreateUser")
