@@ -13,14 +13,15 @@ So I decided to work with Echo that was simpler for me to take the same path.
 
 The test have few goals in mind (the order is irrelevant):
 
-  * API versioning.
-  * Documentation of the API using [swagger](https://swagger.io/).
-  * Documentation of the API using [openapi](https://www.openapis.org/)v3.
-  * Real-life like application (e.g. designing, structures etc).
-  * Reusable code as much as possible.
-  * Data validation using [validator](https://github.com/go-playground/validator).
-  * Debugging of code using [DAP](https://microsoft.github.io/debug-adapter-protocol/) (I'm using neovim, but configuration is under .vscode).
-  * Using Golang's new [slog](https://pkg.go.dev/log/slog) logger on all libraries and tools.
+  * [X] API versioning.
+  * [X] Documentation of the API using [swagger](https://swagger.io/).
+  * [ ] Documentation of the API using [openapi](https://www.openapis.org/)v3.
+  * [X] Real-life like application (e.g. designing, structures etc).
+  * [X] Reusable code as much as possible.
+  * [X] Data validation using [validator](https://github.com/go-playground/validator).
+  * [ ] Debugging of code using [DAP](https://microsoft.github.io/debug-adapter-protocol/)
+  (I'm using [neovim](https://neovim.io/), but configuration is under `.vscode`).
+  * [X] Using Golang's new [slog](https://pkg.go.dev/log/slog) logger on all libraries and tools.
 
 # Build system
 
