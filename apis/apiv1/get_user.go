@@ -24,6 +24,8 @@ import (
 // @Failure 500 {object} structs.HTTPError "Something in internal operation was bad"
 // @Router /users/get/by_id/{id} [GET]
 func (api *APIv1) GetUserByID(ctx echo.Context) error {
+	_ = ctx.Request().Body.Close() // Always close body :/
+
 	logger := api.ctx.App.Logger
 	strID := ctx.Param("id")
 

@@ -25,10 +25,12 @@ import (
 // @Failure 500 {object} structs.HTTPError "Something in internal operation was bad"
 // @Router /users/add [put]
 func (api *APIv1) CreateUser(ctx echo.Context) error {
+	request := ctx.Request()
+
+	defer request.Body.Close() // close on exiting the function...
+
 	logger := api.ctx.App.Logger
 	logger.Debug("In CreateUser")
-
-	request := ctx.Request()
 
 	if request.ContentLength <= 0 {
 		logger.Error("ContentLength is <= 0 ", "ContentLength", request.ContentLength)
@@ -46,7 +48,6 @@ func (api *APIv1) CreateUser(ctx echo.Context) error {
 	}
 
 	body, err := io.ReadAll(request.Body)
-	_ = request.Body.Close()
 
 	if err != nil || len(body) == 0 {
 		logger.Error("Unable to read body", "err", err)
