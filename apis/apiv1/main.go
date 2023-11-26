@@ -15,7 +15,7 @@ var apiV1 *APIv1
 // @description The following project helps to learn echo and how to attach swagger to it.
 // @license.name Mozilla Public License 2.0
 // @license.url https://www.mozilla.org/en-US/MPL/2.0/
-// @host localhost
+// @host localhost:5000
 // @produce json
 // @accept json
 // @schemes http

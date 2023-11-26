@@ -20,9 +20,9 @@ import (
 // @Accept json
 // @Produce json
 // @Param user_details body structs.User true "User object"
-// @Success 200 {object} models.Users
-// @Failure 400 {object} echo.HTTPError
-// @Failure 500 {object} echo.HTTPError
+// @Success 200 {object} models.Users "User details as returned by the saved record"
+// @Failure 400 {object} structs.HTTPError "Something in the request is wrong/unexpected"
+// @Failure 500 {object} structs.HTTPError "Something in internal operation was bad"
 // @Router /users/add [put]
 func (api *APIv1) CreateUser(ctx echo.Context) error {
 	logger := api.ctx.App.Logger
@@ -31,7 +31,18 @@ func (api *APIv1) CreateUser(ctx echo.Context) error {
 	request := ctx.Request()
 
 	if request.ContentLength <= 0 {
-		return echo.NewHTTPError(http.StatusBadRequest, ErrUnableToReadContentLength)
+		logger.Error("ContentLength is <= 0 ", "ContentLength", request.ContentLength)
+
+		return echo.NewHTTPError(
+			http.StatusBadRequest,
+			structs.HTTPError{
+				StatusCode: http.StatusBadRequest,
+				Message:    ErrUnableToReadContentLength.Error(),
+				Info: map[string]any{
+					"ContentLength": request.ContentLength,
+				},
+			},
+		)
 	}
 
 	body, err := io.ReadAll(request.Body)
@@ -40,7 +51,13 @@ func (api *APIv1) CreateUser(ctx echo.Context) error {
 	if err != nil || len(body) == 0 {
 		logger.Error("Unable to read body", "err", err)
 
-		return echo.NewHTTPError(http.StatusBadRequest, ErrUnableToReadContentLength)
+		return echo.NewHTTPError(
+			http.StatusBadRequest,
+			structs.HTTPError{
+				StatusCode: http.StatusBadRequest,
+				Message:    ErrUnableToReadContentLength.Error(),
+			},
+		)
 	}
 
 	logger.Debug("have payload", "body", slog.StringValue(string(body)))
@@ -60,7 +77,13 @@ func (api *APIv1) CreateUser(ctx echo.Context) error {
 
 			return echo.NewHTTPError(
 				http.StatusInternalServerError,
-				"Record created, but unable to send output",
+				structs.HTTPError{
+					StatusCode: http.StatusInternalServerError,
+					Message:    "Record created, but unable to send output",
+					Info: map[string]any{
+						"answer": user,
+					},
+				},
 			)
 		}
 	}
@@ -77,7 +100,13 @@ func (api *APIv1) handleNewUserPayload(payload []byte) (*models.Users, error) {
 
 		return nil, echo.NewHTTPError(
 			http.StatusBadRequest,
-			"Unable to parse or validate the content",
+			structs.HTTPError{
+				StatusCode: http.StatusBadRequest,
+				Message:    "Unable to parse or validate the content",
+				Info: map[string]any{
+					"payload": string(payload),
+				},
+			},
 		)
 	}
 
@@ -98,11 +127,27 @@ func (api *APIv1) handleNewUserPayload(payload []byte) (*models.Users, error) {
 			unwrappedErr.Error(),
 			"ERROR: duplicate key value violates unique constraint",
 		) {
-			return nil, echo.NewHTTPError(http.StatusBadRequest, "username already exists")
+			return nil, echo.NewHTTPError(
+				http.StatusBadRequest,
+				structs.HTTPError{
+					StatusCode: http.StatusBadRequest,
+					Message:    "username already exists",
+					Info: map[string]any{
+						"payload": userData,
+					},
+				},
+			)
 		}
 
 		return nil, echo.NewHTTPError(
-			http.StatusInternalServerError, "Unable to save user",
+			http.StatusInternalServerError,
+			structs.HTTPError{
+				StatusCode: http.StatusInternalServerError,
+				Message:    "Unable to save user",
+				Info: map[string]any{
+					"payload": userData,
+				},
+			},
 		)
 	}
 

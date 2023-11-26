@@ -19,7 +19,7 @@
         },
         "version": "1.0"
     },
-    "host": "localhost",
+    "host": "localhost:5000",
     "basePath": "/v1",
     "paths": {
         "/users/add": {
@@ -48,21 +48,71 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "User details as returned by the saved record",
                         "schema": {
                             "$ref": "#/definitions/models.Users"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Something in the request is wrong/unexpected",
                         "schema": {
-                            "$ref": "#/definitions/echo.HTTPError"
+                            "$ref": "#/definitions/structs.HTTPError"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Something in internal operation was bad",
                         "schema": {
-                            "$ref": "#/definitions/echo.HTTPError"
+                            "$ref": "#/definitions/structs.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/get/by_id/{id}": {
+            "get": {
+                "description": "Finds a user by a given user id, and returning the record",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Finds a user by a given user id, and returning the record",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User details as returned by the saved record",
+                        "schema": {
+                            "$ref": "#/definitions/models.Users"
+                        }
+                    },
+                    "400": {
+                        "description": "Something in the request is wrong/unexpected",
+                        "schema": {
+                            "$ref": "#/definitions/structs.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "User was not found by provided ID",
+                        "schema": {
+                            "$ref": "#/definitions/structs.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Something in internal operation was bad",
+                        "schema": {
+                            "$ref": "#/definitions/structs.HTTPError"
                         }
                     }
                 }
@@ -70,12 +120,6 @@
         }
     },
     "definitions": {
-        "echo.HTTPError": {
-            "type": "object",
-            "properties": {
-                "message": {}
-            }
-        },
         "models.Users": {
             "type": "object",
             "properties": {
@@ -102,8 +146,39 @@
                 }
             }
         },
+        "structs.HTTPError": {
+            "type": "object",
+            "required": [
+                "message",
+                "status_code"
+            ],
+            "properties": {
+                "info": {
+                    "description": "Additional information to provide (if existd)",
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "message": {
+                    "description": "Reason for the error",
+                    "type": "string",
+                    "example": "Something went wrong"
+                },
+                "status_code": {
+                    "description": "HTTP Status Code",
+                    "type": "integer",
+                    "maximum": 599,
+                    "minimum": 400,
+                    "example": 400
+                }
+            }
+        },
         "structs.User": {
             "type": "object",
+            "required": [
+                "first_name",
+                "last_name",
+                "username"
+            ],
             "properties": {
                 "first_name": {
                     "description": "User's first name",

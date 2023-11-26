@@ -2,10 +2,6 @@ basePath: /v1
 consumes:
 - application/json
 definitions:
-  echo.HTTPError:
-    properties:
-      message: {}
-    type: object
   models.Users:
     properties:
       created_at:
@@ -22,6 +18,26 @@ definitions:
         type: string
       username:
         type: string
+    type: object
+  structs.HTTPError:
+    properties:
+      info:
+        additionalProperties: {}
+        description: Additional information to provide (if existd)
+        type: object
+      message:
+        description: Reason for the error
+        example: Something went wrong
+        type: string
+      status_code:
+        description: HTTP Status Code
+        example: 400
+        maximum: 599
+        minimum: 400
+        type: integer
+    required:
+    - message
+    - status_code
     type: object
   structs.User:
     properties:
@@ -45,8 +61,12 @@ definitions:
         maxLength: 24
         minLength: 2
         type: string
+    required:
+    - first_name
+    - last_name
+    - username
     type: object
-host: localhost
+host: localhost:5000
 info:
   contact: {}
   description: The following project helps to learn echo and how to attach swagger
@@ -73,18 +93,51 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: User details as returned by the saved record
           schema:
             $ref: '#/definitions/models.Users'
         "400":
-          description: Bad Request
+          description: Something in the request is wrong/unexpected
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/structs.HTTPError'
         "500":
-          description: Internal Server Error
+          description: Something in internal operation was bad
           schema:
-            $ref: '#/definitions/echo.HTTPError'
+            $ref: '#/definitions/structs.HTTPError'
       summary: Create a new user.
+      tags:
+      - Users
+  /users/get/by_id/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Finds a user by a given user id, and returning the record
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User details as returned by the saved record
+          schema:
+            $ref: '#/definitions/models.Users'
+        "400":
+          description: Something in the request is wrong/unexpected
+          schema:
+            $ref: '#/definitions/structs.HTTPError'
+        "404":
+          description: User was not found by provided ID
+          schema:
+            $ref: '#/definitions/structs.HTTPError'
+        "500":
+          description: Something in internal operation was bad
+          schema:
+            $ref: '#/definitions/structs.HTTPError'
+      summary: Finds a user by a given user id, and returning the record
       tags:
       - Users
 produces:
