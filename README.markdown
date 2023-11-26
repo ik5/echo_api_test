@@ -8,12 +8,14 @@ REST API.
 I wish to use Golang as a REST API system for high demand system.
 After several frameworks that I have tested, I decided that to check both [Iris](https://www.iris-go.com/) and [echo](https://echo.labstack.com/).
 
-While testing Iris I had few basic issues that there was lack of proper documentation and examples.
-So I decided to work with Echo that was simpler for me to take the same path.
+While testing Iris, I encountered a few basic issues due to lack of proper documentation and examples that I could find.
+Following the issues I have encountered, I have decided to work with Echo framework that is simpler for me to use without issues so far.
 
 The test have few goals in mind (the order is irrelevant):
 
-  * [X] API versioning.
+  * [-] API versioning.
+    - [X] API version 1.
+    - [ ] API version 2.
   * [X] Documentation of the API using [swagger](https://swagger.io/).
   * [ ] Documentation of the API using [openapi](https://www.openapis.org/)v3.
   * [X] Real-life like application (e.g. designing, structures etc).
