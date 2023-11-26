@@ -32,4 +32,5 @@ build-released-api: clean-api deps linters generate-swagger
 install-deps:
 	go install github.com/essentialkaos/aligo/v2@latest
 	go install github.com/nametake/golangci-lint-langserver@latest
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	go install github.com/swaggo/swag/cmd/swag@latest
