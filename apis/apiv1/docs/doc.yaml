@@ -5,18 +5,25 @@ definitions:
   models.Users:
     properties:
       created_at:
+        description: When was the record created
         type: string
       first_name:
+        description: User's first name
         type: string
       id:
+        description: User's row ID
         type: integer
       last_name:
+        description: User's last name
         type: string
       middle_name:
+        description: User's middle name (if exists)
         type: string
       updated_at:
+        description: When was the record last updated
         type: string
       username:
+        description: User's username that is in use
         type: string
     type: object
   structs.HTTPError:
@@ -66,7 +73,6 @@ definitions:
     - last_name
     - username
     type: object
-host: localhost:5000
 info:
   contact: {}
   description: The following project helps to learn echo and how to attach swagger

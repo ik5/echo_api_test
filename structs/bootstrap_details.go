@@ -18,6 +18,9 @@ type HTTPServerInfo struct {
 	// Raw host
 	Host string
 
+	// How documentation will look (raw)
+	ExternalHost string
+
 	// Raw listen based on both Host and Port
 	Listen string
 

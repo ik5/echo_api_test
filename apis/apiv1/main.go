@@ -1,7 +1,9 @@
 package apiv1
 
 import (
-	_ "github.com/ik5/echo_api_test/apis/apiv1/docs"
+	"fmt"
+
+	"github.com/ik5/echo_api_test/apis/apiv1/docs"
 	"github.com/ik5/echo_api_test/structs"
 	swagger "github.com/swaggo/echo-swagger"
 )
@@ -15,7 +17,6 @@ var apiV1 *APIv1
 // @description The following project helps to learn echo and how to attach swagger to it.
 // @license.name Mozilla Public License 2.0
 // @license.url https://www.mozilla.org/en-US/MPL/2.0/
-// @host localhost:5000
 // @produce json
 // @accept json
 // @schemes http
@@ -24,6 +25,8 @@ func InitAPI(ctx *structs.Context) {
 	apiV1 = &APIv1{
 		ctx: ctx,
 	}
+
+	docs.SwaggerInfo.Host = fmt.Sprintf("http://%s", ctx.HTTPServer.ExternalHost)
 
 	logger := ctx.App.Logger
 	app := ctx.HTTPServer.App

@@ -19,7 +19,6 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:5000",
     "basePath": "/v1",
     "paths": {
         "/users/add": {
@@ -124,24 +123,31 @@
             "type": "object",
             "properties": {
                 "created_at": {
+                    "description": "When was the record created",
                     "type": "string"
                 },
                 "first_name": {
+                    "description": "User's first name",
                     "type": "string"
                 },
                 "id": {
+                    "description": "User's row ID",
                     "type": "integer"
                 },
                 "last_name": {
+                    "description": "User's last name",
                     "type": "string"
                 },
                 "middle_name": {
+                    "description": "User's middle name (if exists)",
                     "type": "string"
                 },
                 "updated_at": {
+                    "description": "When was the record last updated",
                     "type": "string"
                 },
                 "username": {
+                    "description": "User's username that is in use",
                     "type": "string"
                 }
             }

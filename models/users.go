@@ -13,14 +13,28 @@ import (
 
 type Users struct {
 	// Basic methods
-	Model      `json:"-"`
-	ID         int       `json:"id,omitempty"`
-	FirstName  string    `json:"first_name,omitempty"`
-	MiddleName string    `json:"middle_name,omitempty"`
-	LastName   string    `json:"last_name,omitempty"`
-	Username   string    `json:"username,omitempty"`
-	CreatedAt  time.Time `json:"created_at,omitempty"`
-	UpdatedAt  time.Time `json:"updated_at,omitempty"`
+	Model `json:"-"`
+
+	// User's row ID
+	ID int `json:"id,omitempty"`
+
+	// User's first name
+	FirstName string `json:"first_name,omitempty"`
+
+	// User's middle name (if exists)
+	MiddleName string `json:"middle_name,omitempty"`
+
+	// User's last name
+	LastName string `json:"last_name,omitempty"`
+
+	// User's username that is in use
+	Username string `json:"username,omitempty"`
+
+	// When was the record created
+	CreatedAt time.Time `json:"created_at,omitempty"`
+
+	// When was the record last updated
+	UpdatedAt time.Time `json:"updated_at,omitempty"`
 }
 
 const (

@@ -14,6 +14,7 @@ const (
 	defaultPGPort          uint   = 5432
 	defaultPGMaxConnection uint   = 5
 	defaultHost            string = ""
+	defaultExternalHost    string = "localhost"
 	defaultPGHost          string = "localhost"
 	defaultPGDB            string = "test_api"
 	defaultPGUserName      string = "postgres"
@@ -25,6 +26,7 @@ type settings struct {
 	PGPort           uint
 	PGMaxConnections uint
 	Host             string
+	ExternalHost     string
 	PGHost           string
 	PGDB             string
 	PGUserName       string
@@ -38,6 +40,10 @@ func initSettings() settings {
 
 	port := flag.Uint(
 		"p", defaultPort, "The port number to listen to on the HTTP server",
+	)
+
+	externalHost := flag.String(
+		"eh", defaultExternalHost, "The host that will appear in documentation",
 	)
 
 	pgHost := flag.String(
@@ -68,6 +74,7 @@ func initSettings() settings {
 
 	return settings{
 		Host:             *host,
+		ExternalHost:     *externalHost,
 		Port:             *port,
 		PGHost:           *pgHost,
 		PGPort:           *pgPort,
@@ -81,6 +88,10 @@ func initSettings() settings {
 // HTTPListen generates a listen string for HTTP
 func (s settings) HTTPListen() string {
 	return net.JoinHostPort(s.Host, fmt.Sprintf("%d", s.Port))
+}
+
+func (s settings) HTTPExternalHost() string {
+	return net.JoinHostPort(s.ExternalHost, fmt.Sprintf("%d", s.Port))
 }
 
 // PGDSN generate dsn for configuration

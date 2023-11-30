@@ -49,9 +49,10 @@ func main() {
 			Quit:   &quit,
 		},
 		HTTPServer: structs.HTTPServerInfo{
-			Port:   cliSettings.Port,
-			Host:   cliSettings.Host,
-			Listen: cliSettings.HTTPListen(),
+			Port:         cliSettings.Port,
+			Host:         cliSettings.Host,
+			Listen:       cliSettings.HTTPListen(),
+			ExternalHost: cliSettings.HTTPExternalHost(),
 			// App:    &echo.Echo{},
 		},
 		DB: structs.DBInfo{
